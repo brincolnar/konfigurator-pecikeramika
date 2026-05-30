@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="sl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Konfigurator kaminov Peči Keramika za izbor ravnih, vogalnih in tristranskih kaminov."
+    />
+    <title>Konfigurator kaminov | Peči Keramika</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="configurator-shell">
+      <section class="intro-panel" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Peči Keramika konfigurator</p>
+          <h1 id="page-title">Sestavite vaš sanjski kamin</h1>
+          <p class="intro-copy">
+            Začnite z osnovno obliko kamina. Izbira nam pomaga pripraviti
+            primeren izris, svetovanje in naslednje korake projektiranja.
+          </p>
+        </div>
+
+      </section>
+
+      <section class="selection-panel" aria-labelledby="selection-title" data-step="fireplace-type">
+        <div class="section-heading">
+          <p class="eyebrow">Osnovna izvedba</p>
+          <h2 id="selection-title">Kateri kamin želite?</h2>
+        </div>
+
+        <div class="fireplace-grid" role="radiogroup" aria-label="Tip kamina">
+          <button class="fireplace-card" type="button" role="radio" aria-checked="true" data-fireplace="ravni">
+            <span class="image-wrap">
+              <img src="./kamini/ravni.jpg" alt="Ravni kamin s frontalnim steklom" />
+            </span>
+            <span class="card-content">
+              <span class="card-kicker">Klasična izbira</span>
+              <span class="card-title">Ravni kamin</span>
+              <span class="card-description">Frontalni pogled na ogenj za čiste, umirjene linije prostora.</span>
+            </span>
+          </button>
+
+          <button class="fireplace-card" type="button" role="radio" aria-checked="false" data-fireplace="vogalni">
+            <span class="image-wrap">
+              <img src="./kamini/vogalni.jpg" alt="Vogalni kamin z odprtim pogledom z dveh strani" />
+            </span>
+            <span class="card-content">
+              <span class="card-kicker">Za odprte tlorise</span>
+              <span class="card-title">Vogalni kamin</span>
+              <span class="card-description">Ogenj poudari stik dveh sten in ustvari širši pogled v prostoru.</span>
+            </span>
+          </button>
+
+          <button class="fireplace-card" type="button" role="radio" aria-checked="false" data-fireplace="tristranski">
+            <span class="image-wrap">
+              <img src="./kamini/tristranski.jpg" alt="Tristranski kamin z večstranskim pogledom na ogenj" />
+            </span>
+            <span class="card-content">
+              <span class="card-kicker">Največ vidnosti</span>
+              <span class="card-title">Tristranski kamin</span>
+              <span class="card-description">Primeren za izrazit osrednji element z večstranskim pogledom na plamen.</span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="shape-title" data-step="ravni-shape">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ravni kamin</p>
+            <h2 id="shape-title">Izberite obliko ravnega kamina</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-types>Spremeni tip kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview" aria-label="Predogled ravnega kamina v sobi">
+            <img class="room-image" src="./layers/soba.png" alt="Soba za predogled izbrane oblike kamina" />
+            <img
+              class="fireplace-overlay"
+              src="./layers/ravni-kamin-osnovni.png"
+              alt=""
+              aria-hidden="true"
+              data-fireplace-overlay
+            />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Oblika ravnega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-shape="osnovni">
+              <span class="shape-title">Osnovni</span>
+              <span class="shape-description">Čista ravna izvedba brez dodatne police.</span>
+            </button>
+
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-shape="polica">
+              <span class="shape-title">S polico</span>
+              <span class="shape-description">Ravni kamin z dodano uporabno in vizualno polico.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="summary-panel" aria-live="polite">
+        <div>
+          <p class="eyebrow">Vaša izbira</p>
+          <h2 id="selected-title">Ravni kamin</h2>
+          <p id="selected-description">
+            Frontalni pogled na ogenj za čiste, umirjene linije prostora.
+          </p>
+        </div>
+        <button class="primary-action" type="button" data-next-step>Nadaljuj na obliko kamina</button>
+      </aside>
+    </main>
+  </body>
+</html>
