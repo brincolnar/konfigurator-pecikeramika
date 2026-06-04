@@ -87,7 +87,7 @@
             <img class="room-image" src="./layers/soba.png" alt="Soba za predogled izbrane oblike kamina" />
             <img
               class="fireplace-overlay"
-              src="./layers/ravni-kamin-osnovni.png"
+              src="./ravni/oblika/enostaven.png"
               alt=""
               aria-hidden="true"
               data-fireplace-overlay
@@ -103,6 +103,96 @@
             <button class="shape-card" type="button" role="radio" aria-checked="false" data-shape="polica">
               <span class="shape-title">S polico</span>
               <span class="shape-description">Ravni kamin z dodano uporabno in vizualno polico.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="vstavek-title" data-step="ravni-vstavek">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ravni kamin</p>
+            <h2 id="vstavek-title">Izberite vstavek</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-shape>Spremeni obliko kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview" aria-label="Predogled vstavka v kaminu">
+            <img class="room-image" src="./layers/soba.png" alt="Soba za predogled izbranega vstavka" />
+            <img class="fireplace-overlay" src="./ravni/oblika/enostaven.png" alt="" aria-hidden="true" data-shape-overlay />
+            <img class="fireplace-overlay" src="./ravni/vstavek/vstavek.png" alt="" aria-hidden="true" data-vstavek-overlay />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Vstavek kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-vstavek="standardni">
+              <span class="shape-title">Standardni vstavek</span>
+              <span class="shape-description">Klasični vstavek za ravni kamin.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="drva-title" data-step="ravni-drva">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ravni kamin</p>
+            <h2 id="drva-title">Položaj drv</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-resetki>Spremeni zračnike</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview" aria-label="Predogled položaja drv v kaminu">
+            <img class="room-image" src="./layers/soba.png" alt="" />
+            <img class="fireplace-overlay" src="" alt="" aria-hidden="true" data-drva-shape-overlay />
+            <img class="fireplace-overlay" src="" alt="" aria-hidden="true" data-drva-vstavek-overlay />
+            <img class="fireplace-overlay is-hidden" src="./ravni/resetki/zračnika.png" alt="" aria-hidden="true" data-drva-resetki-overlay />
+            <img class="fireplace-overlay is-hidden" src="" alt="" aria-hidden="true" data-drva-overlay />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Položaj drv">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-drva="desno">
+              <span class="shape-title">Drva desno</span>
+              <span class="shape-description">Drva so nameščena na desni strani kamina.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-drva="levo">
+              <span class="shape-title">Drva levo</span>
+              <span class="shape-description">Drva so nameščena na levi strani kamina.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-drva="spodaj">
+              <span class="shape-title">Drva spodaj</span>
+              <span class="shape-description">Drva so nameščena spodaj v kaminu.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="resetki-title" data-step="ravni-resetki">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ravni kamin</p>
+            <h2 id="resetki-title">Izbira zračnikov</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-vstavek>Spremeni vstavek</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview" aria-label="Predogled zračnikov v kaminu">
+            <img class="room-image" src="./layers/soba.png" alt="" />
+            <img class="fireplace-overlay" src="" alt="" aria-hidden="true" data-resetki-shape-overlay />
+            <img class="fireplace-overlay" src="" alt="" aria-hidden="true" data-resetki-vstavek-overlay />
+            <img class="fireplace-overlay is-hidden" src="./ravni/resetki/zračnika.png" alt="" aria-hidden="true" data-resetki-overlay />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Izbira zračnikov">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-resetki="brez">
+              <span class="shape-title">Brez zračnikov</span>
+              <span class="shape-description">Čista površina brez vidnih rešetk.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-resetki="z-zracniki">
+              <span class="shape-title">Z zračniki</span>
+              <span class="shape-description">Vidni prezračevalni rešetki na kaminu.</span>
             </button>
           </div>
         </div>
