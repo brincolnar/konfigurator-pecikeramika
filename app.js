@@ -7,12 +7,56 @@ const fireplaceTypes = {
   vogalni: {
     title: "Vogalni kamin",
     description: "Ogenj poudari stik dveh sten in ustvari širši pogled v prostoru.",
-    nextLabel: "Oblike za vogalni kamin kmalu",
+    nextLabel: "Nadaljuj na obliko kamina",
   },
   tristranski: {
     title: "Tristranski kamin",
     description: "Primeren za izrazit osrednji element z večstranskim pogledom na plamen.",
     nextLabel: "Oblike za tristranski kamin kmalu",
+  },
+};
+
+const vogalniShapes = {
+  osnovna: {
+    title: "Osnovna vogalni kamin",
+    description: "Čista vogalna izvedba brez dodatne police.",
+    image: "./vogalni/oblika/osnovna.png",
+    vstavekImage: "./vogalni/vstavek/osnoven_vstavek.png",
+    resetkiImage: "./vogalni/resetki/osnoven_resetka.png",
+  },
+  polica: {
+    title: "Vogalni kamin s polico",
+    description: "Vogalni kamin z dodano polico.",
+    image: "./vogalni/oblika/polica.png",
+    vstavekImage: "./vogalni/vstavek/polica_vstavek.png",
+    resetkiImage: "./vogalni/resetki/polica_resetka.png",
+  },
+};
+
+const vogalniDrvaImages = {
+  osnovna: {
+    zZracniki: {
+      desno: "./vogalni/drva/osnoven_drvadesno_zracnik.png",
+      levo: "./vogalni/drva/osnoven_drvalevo_zracnik.png",
+      spodaj: null,
+    },
+    brezZracnikov: {
+      desno: "./vogalni/drva/osnoven_drvadesno.png",
+      levo: "./vogalni/drva/osnoven_drvalevo.png",
+      spodaj: null,
+    },
+  },
+  polica: {
+    zZracniki: {
+      desno: "./vogalni/drva/polica_drva_desno_zracnik.png",
+      levo: "./vogalni/drva/polica_drvaleva_zracnik.png",
+      spodaj: "./vogalni/drva/polica_drva_spodaj_zracniki.png",
+    },
+    brezZracnikov: {
+      desno: "./vogalni/drva/polica_drva_desnno.png",
+      levo: "./vogalni/drva/polica_drvaleva.png",
+      spodaj: "./vogalni/drva/polica_drva_spodaj.jpg",
+    },
   },
 };
 
@@ -54,6 +98,7 @@ const resetkiOverlay = document.querySelector("[data-resetki-overlay]");
 let selectedFireplaceType = "ravni";
 let selectedStraightShape = "osnovni";
 let selectedVstavek = "standardni";
+let selectedVogalniShape = "osnovna";
 
 const selectFireplace = (selectedType) => {
   const selected = fireplaceTypes[selectedType];
@@ -70,7 +115,7 @@ const selectFireplace = (selectedType) => {
   selectedTitle.textContent = selected.title;
   selectedDescription.textContent = selected.description;
   nextStepButton.textContent = selected.nextLabel;
-  nextStepButton.disabled = selectedType !== "ravni";
+  nextStepButton.disabled = selectedType === "tristranski";
 };
 
 const selectStraightShape = (selectedShape) => {
@@ -139,6 +184,11 @@ const showFireplaceTypeStep = () => {
   straightShapeStep.classList.add("is-hidden");
   vstavekStep.classList.add("is-hidden");
   resetkiStep.classList.add("is-hidden");
+  drvaStep.classList.add("is-hidden");
+  vogalniShapeStep.classList.add("is-hidden");
+  vogalniVstavekStep.classList.add("is-hidden");
+  vogalniResetkiStep.classList.add("is-hidden");
+  vogalniDrvaStep.classList.add("is-hidden");
   fireplaceTypeStep.classList.remove("is-hidden");
   selectFireplace(selectedFireplaceType);
 };
@@ -292,12 +342,177 @@ backToResetkiButton.addEventListener("click", () => {
   currentStep = "ravni-resetki";
 });
 
+// ─── Vogalni kamin ────────────────────────────────────────────────────────────
+
+const vogalniShapeStep = document.querySelector('[data-step="vogalni-shape"]');
+const vogalniVstavekStep = document.querySelector('[data-step="vogalni-vstavek"]');
+const vogalniResetkiStep = document.querySelector('[data-step="vogalni-resetki"]');
+const vogalniDrvaStep = document.querySelector('[data-step="vogalni-drva"]');
+
+const vogalniShapeCards = document.querySelectorAll("[data-vogalni-shape]");
+const vogalniVstavekCards = document.querySelectorAll("[data-vogalni-vstavek]");
+const vogalniResetkiCards = document.querySelectorAll("[data-vogalni-resetki]");
+const vogalniDrvaCards = document.querySelectorAll("[data-vogalni-drva]");
+const vogalniDrvaSpodajCard = document.querySelector("[data-vogalni-drva-spodaj]");
+
+const vogalniShapePreview = document.querySelector("[data-vogalni-shape-preview]");
+const vogalniVstavekPreview = document.querySelector("[data-vogalni-vstavek-preview]");
+const vogalniResetkiPreview = document.querySelector("[data-vogalni-resetki-preview]");
+const vogalniDrvaPreview = document.querySelector("[data-vogalni-drva-preview]");
+
+const backToTypesFromVogalniButton = document.querySelector("[data-back-to-types-from-vogalni]");
+const backToVogalniShapeButton = document.querySelector("[data-back-to-vogalni-shape]");
+const backToVogalniVstavekButton = document.querySelector("[data-back-to-vogalni-vstavek]");
+const backToVogalniResetkiButton = document.querySelector("[data-back-to-vogalni-resetki]");
+
+const selectVogalniShape = (shape) => {
+  const selected = vogalniShapes[shape];
+  if (!selected) return;
+  selectedVogalniShape = shape;
+  vogalniShapeCards.forEach((c) => c.setAttribute("aria-checked", String(c.dataset.vogalniShape === shape)));
+  vogalniShapePreview.src = selected.image;
+  selectedTitle.textContent = selected.title;
+  selectedDescription.textContent = selected.description;
+  vogalniDrvaSpodajCard.classList.toggle("is-hidden", shape === "osnovna");
+};
+
+const showVogalniShapeStep = () => {
+  fireplaceTypeStep.classList.add("is-hidden");
+  vogalniShapeStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na izbor vstavka";
+  selectVogalniShape(selectedVogalniShape);
+};
+
+const showVogalniVstavekStep = () => {
+  vogalniShapeStep.classList.add("is-hidden");
+  vogalniVstavekStep.classList.remove("is-hidden");
+  const shape = vogalniShapes[selectedVogalniShape];
+  vogalniVstavekPreview.src = shape.vstavekImage;
+  vogalniVstavekCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+  nextStepButton.textContent = "Nadaljuj na izbor zračnikov";
+  selectedTitle.textContent = "Standardni vstavek";
+  selectedDescription.textContent = "Klasični vstavek za vogalni kamin.";
+};
+
+const showVogalniResetkiStep = () => {
+  vogalniVstavekStep.classList.add("is-hidden");
+  vogalniResetkiStep.classList.remove("is-hidden");
+  const shape = vogalniShapes[selectedVogalniShape];
+  vogalniResetkiPreview.src = shape.vstavekImage;
+  vogalniResetkiCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+  nextStepButton.textContent = "Nadaljuj na položaj drv";
+  selectedTitle.textContent = "Izbira zračnikov";
+  selectedDescription.textContent = "Izberite ali želite vidne prezračevalne rešetke.";
+};
+
+const showVogalniDrvaStep = () => {
+  vogalniResetkiStep.classList.add("is-hidden");
+  vogalniDrvaStep.classList.remove("is-hidden");
+  const shape = vogalniShapes[selectedVogalniShape];
+  const hasZracniki = Array.from(vogalniResetkiCards).find((c) => c.dataset.vogalniResetki === "z-zracniki")?.getAttribute("aria-checked") === "true";
+  if (hasZracniki) {
+    vogalniDrvaPreview.src = selectedVogalniShape === "osnovna"
+      ? "./vogalni/drva/osnoven_brezdrv_zracnik.png"
+      : "./vogalni/drva/polica_brezdrv_zracnik.png";
+  } else {
+    vogalniDrvaPreview.src = shape.vstavekImage;
+  }
+  vogalniDrvaCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+  nextStepButton.textContent = "Nadaljuj na mere prostora";
+  selectedTitle.textContent = "Položaj drv";
+  selectedDescription.textContent = "Izberite na kateri strani bodo drva.";
+};
+
+const showVogalniShapeFromVstavek = () => {
+  vogalniVstavekStep.classList.add("is-hidden");
+  vogalniShapeStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na izbor vstavka";
+  selectVogalniShape(selectedVogalniShape);
+};
+
+const showVogalniVstavekFromResetki = () => {
+  vogalniResetkiStep.classList.add("is-hidden");
+  vogalniVstavekStep.classList.remove("is-hidden");
+  const shape = vogalniShapes[selectedVogalniShape];
+  vogalniVstavekPreview.src = shape.vstavekImage;
+  nextStepButton.textContent = "Nadaljuj na izbor zračnikov";
+  selectedTitle.textContent = "Standardni vstavek";
+  selectedDescription.textContent = "Klasični vstavek za vogalni kamin.";
+};
+
+const showVogalniResetkiFromDrva = () => {
+  vogalniDrvaStep.classList.add("is-hidden");
+  vogalniResetkiStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na položaj drv";
+  selectedTitle.textContent = "Izbira zračnikov";
+  selectedDescription.textContent = "Izberite ali želite vidne prezračevalne rešetke.";
+};
+
+vogalniShapeCards.forEach((card) => {
+  card.addEventListener("click", () => selectVogalniShape(card.dataset.vogalniShape));
+});
+
+vogalniVstavekCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    vogalniVstavekCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+  });
+});
+
+vogalniResetkiCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    vogalniResetkiCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+    const shape = vogalniShapes[selectedVogalniShape];
+    vogalniResetkiPreview.src = card.dataset.vogalniResetki === "z-zracniki"
+      ? shape.resetkiImage
+      : shape.vstavekImage;
+  });
+});
+
+vogalniDrvaCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    vogalniDrvaCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+    const hasZracniki = Array.from(vogalniResetkiCards).find((c) => c.dataset.vogalniResetki === "z-zracniki")?.getAttribute("aria-checked") === "true";
+    const shapeSet = vogalniDrvaImages[selectedVogalniShape];
+    const set = hasZracniki ? shapeSet.zZracniki : shapeSet.brezZracnikov;
+    const src = set[card.dataset.vogalniDrva];
+    if (src) vogalniDrvaPreview.src = src;
+  });
+});
+
+backToTypesFromVogalniButton.addEventListener("click", () => {
+  showFireplaceTypeStep();
+  currentStep = "fireplace-type";
+});
+
+backToVogalniShapeButton.addEventListener("click", () => {
+  showVogalniShapeFromVstavek();
+  currentStep = "vogalni-shape";
+});
+
+backToVogalniVstavekButton.addEventListener("click", () => {
+  showVogalniVstavekFromResetki();
+  currentStep = "vogalni-vstavek";
+});
+
+backToVogalniResetkiButton.addEventListener("click", () => {
+  showVogalniResetkiFromDrva();
+  currentStep = "vogalni-resetki";
+});
+
 let currentStep = "fireplace-type";
 
 nextStepButton.addEventListener("click", () => {
   if (currentStep === "fireplace-type") {
-    showStraightShapeStep();
-    currentStep = "ravni-shape";
+    if (selectedFireplaceType === "ravni") {
+      showStraightShapeStep();
+      currentStep = "ravni-shape";
+    } else if (selectedFireplaceType === "vogalni") {
+      showVogalniShapeStep();
+      currentStep = "vogalni-shape";
+    }
   } else if (currentStep === "ravni-shape") {
     showVstavekStep();
     currentStep = "ravni-vstavek";
@@ -307,6 +522,15 @@ nextStepButton.addEventListener("click", () => {
   } else if (currentStep === "ravni-resetki") {
     showDrvaStep();
     currentStep = "ravni-drva";
+  } else if (currentStep === "vogalni-shape") {
+    showVogalniVstavekStep();
+    currentStep = "vogalni-vstavek";
+  } else if (currentStep === "vogalni-vstavek") {
+    showVogalniResetkiStep();
+    currentStep = "vogalni-resetki";
+  } else if (currentStep === "vogalni-resetki") {
+    showVogalniDrvaStep();
+    currentStep = "vogalni-drva";
   }
 });
 

@@ -198,6 +198,114 @@
         </div>
       </section>
 
+      <section class="selection-panel is-hidden" aria-labelledby="vogalni-shape-title" data-step="vogalni-shape">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Vogalni kamin</p>
+            <h2 id="vogalni-shape-title">Izberite obliko vogalnega kamina</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-types-from-vogalni>Spremeni tip kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled oblike vogalnega kamina">
+            <img class="fireplace-overlay is-static" src="./vogalni/oblika/osnovna.png" alt="" aria-hidden="true" data-vogalni-shape-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Oblika vogalnega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-vogalni-shape="osnovna">
+              <span class="shape-title">Osnovna</span>
+              <span class="shape-description">Čista vogalna izvedba brez dodatne police.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-vogalni-shape="polica">
+              <span class="shape-title">S polico</span>
+              <span class="shape-description">Vogalni kamin z dodano polico.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="vogalni-vstavek-title" data-step="vogalni-vstavek">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Vogalni kamin</p>
+            <h2 id="vogalni-vstavek-title">Izberite vstavek</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-vogalni-shape>Spremeni obliko kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled vstavka v vogalnem kaminu">
+            <img class="fireplace-overlay is-static" src="" alt="" aria-hidden="true" data-vogalni-vstavek-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Vstavek vogalnega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-vogalni-vstavek="standardni">
+              <span class="shape-title">Standardni vstavek</span>
+              <span class="shape-description">Klasični vstavek za vogalni kamin.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="vogalni-resetki-title" data-step="vogalni-resetki">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Vogalni kamin</p>
+            <h2 id="vogalni-resetki-title">Izbira zračnikov</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-vogalni-vstavek>Spremeni vstavek</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled zračnikov v vogalnem kaminu">
+            <img class="fireplace-overlay is-static" src="" alt="" aria-hidden="true" data-vogalni-resetki-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Izbira zračnikov">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-vogalni-resetki="brez">
+              <span class="shape-title">Brez zračnikov</span>
+              <span class="shape-description">Čista površina brez vidnih rešetk.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-vogalni-resetki="z-zracniki">
+              <span class="shape-title">Z zračniki</span>
+              <span class="shape-description">Vidni prezračevalni rešetki na kaminu.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="vogalni-drva-title" data-step="vogalni-drva">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Vogalni kamin</p>
+            <h2 id="vogalni-drva-title">Položaj drv</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-vogalni-resetki>Spremeni zračnike</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled položaja drv v vogalnem kaminu">
+            <img class="fireplace-overlay is-static" src="" alt="" aria-hidden="true" data-vogalni-drva-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Položaj drv">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-vogalni-drva="desno">
+              <span class="shape-title">Drva desno</span>
+              <span class="shape-description">Drva so nameščena na desni strani kamina.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-vogalni-drva="levo">
+              <span class="shape-title">Drva levo</span>
+              <span class="shape-description">Drva so nameščena na levi strani kamina.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-vogalni-drva="spodaj" data-vogalni-drva-spodaj>
+              <span class="shape-title">Drva spodaj</span>
+              <span class="shape-description">Drva so nameščena spodaj v kaminu.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       <aside class="summary-panel" aria-live="polite">
         <div>
           <p class="eyebrow">Vaša izbira</p>
