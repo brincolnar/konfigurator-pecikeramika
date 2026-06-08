@@ -198,6 +198,106 @@
         </div>
       </section>
 
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-oblika-title" data-step="tristranski-oblika">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-oblika-title">Predogled tristranskega kamina</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-types-from-tristranski>Spremeni tip kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled tristranskega kamina">
+            <img class="fireplace-overlay is-static" src="./tristranski/oblika/a0d3da1f-4c43-4739-80ed-1fbab3633ff6.png" alt="" aria-hidden="true" data-tristranski-oblika-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Oblika tristranskega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-tristranski-oblika="osnovna">
+              <span class="shape-title">Osnovna</span>
+              <span class="shape-description">Tristranska izvedba z večstranskim pogledom na plamen.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-vstavek-title" data-step="tristranski-vstavek">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-vstavek-title">Izberite vstavek</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-tristranski-oblika>Spremeni obliko kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled vstavka v tristranskem kaminu">
+            <img class="fireplace-overlay is-static" src="./tristranski/vstavek/standarden_vstavek.png" alt="" aria-hidden="true" data-tristranski-vstavek-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Vstavek tristranskega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-tristranski-vstavek="standardni">
+              <span class="shape-title">Standardni vstavek</span>
+              <span class="shape-description">Klasični vstavek za tristranski kamin.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-zracniki-title" data-step="tristranski-zracniki">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-zracniki-title">Izbira zračnikov</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-tristranski-vstavek>Spremeni vstavek</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled zračnikov v tristranskem kaminu">
+            <img class="fireplace-overlay is-static" src="./tristranski/vstavek/standarden_vstavek.png" alt="" aria-hidden="true" data-tristranski-zracniki-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Izbira zračnikov">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-zracniki="brez">
+              <span class="shape-title">Brez zračnikov</span>
+              <span class="shape-description">Čista površina brez vidnih rešetk.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-zracniki="z-zracniki">
+              <span class="shape-title">Z zračniki</span>
+              <span class="shape-description">Vidni prezračevalni rešetki na kaminu.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-drva-title" data-step="tristranski-drva">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-drva-title">Položaj drv</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-tristranski-zracniki>Spremeni zračnike</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled položaja drv v tristranskem kaminu">
+            <img class="fireplace-overlay is-static" src="" alt="" aria-hidden="true" data-tristranski-drva-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Položaj drv">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-drva="desno">
+              <span class="shape-title">Drva desno</span>
+              <span class="shape-description">Drva so nameščena na desni strani kamina.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-drva="levo">
+              <span class="shape-title">Drva levo</span>
+              <span class="shape-description">Drva so nameščena na levi strani kamina.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section class="selection-panel is-hidden" aria-labelledby="vogalni-shape-title" data-step="vogalni-shape">
         <div class="section-heading">
           <div>
@@ -302,6 +402,49 @@
               <span class="shape-title">Drva spodaj</span>
               <span class="shape-description">Drva so nameščena spodaj v kaminu.</span>
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="zakljucek-title" data-step="zakljucek">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Zaključek</p>
+            <h2 id="zakljucek-title">Vaša konfiguracija</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-drva>Nazaj na položaj drv</button>
+        </div>
+
+        <div class="zakljucek-layout">
+          <img class="zakljucek-image" src="" alt="Predogled vaše konfiguracije" data-zakljucek-image />
+
+          <div class="zakljucek-right">
+            <div class="zakljucek-summary" data-zakljucek-summary></div>
+
+            <form class="zakljucek-form" data-zakljucek-form novalidate>
+              <div class="form-group">
+                <label for="pk-ime">Ime in priimek *</label>
+                <input id="pk-ime" type="text" name="ime" placeholder="Janez Novak" autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label for="pk-email">E-pošta</label>
+                <input id="pk-email" type="email" name="email" placeholder="janez@primer.si" autocomplete="email" />
+              </div>
+              <div class="form-group">
+                <label for="pk-telefon">Telefon</label>
+                <input id="pk-telefon" type="tel" name="telefon" placeholder="+386 40 123 456" autocomplete="tel" />
+              </div>
+              <p class="form-hint">* Ime je obvezno. Vnesti morate vsaj e-pošto ali telefon.</p>
+              <p class="form-error-msg is-hidden" data-zakljucek-error></p>
+              <div class="form-group">
+                <label for="pk-opomba">Opomba</label>
+                <textarea id="pk-opomba" name="opomba" rows="3" placeholder="Dodatne informacije o projektu..."></textarea>
+              </div>
+            </form>
+
+            <div class="zakljucek-hvala is-hidden" data-zakljucek-hvala>
+              Hvala! Vaše povpraševanje je bilo poslano. Kontaktirali vas bomo v najkrajšem možnem času.
+            </div>
           </div>
         </div>
       </section>
