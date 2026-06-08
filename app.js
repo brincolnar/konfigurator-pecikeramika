@@ -444,6 +444,13 @@ const showTristranskaZracnikiFromDrva = () => {
   selectedDescription.textContent = "Izberite ali želite vidne prezračevalne rešetke.";
 };
 
+tristranskaVstavekCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    tristranskaVstavekCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+  });
+});
+
 tristranskaZracnikiCards.forEach((card) => {
   card.addEventListener("click", () => {
     tristranskaZracnikiCards.forEach((c) => c.setAttribute("aria-checked", "false"));
