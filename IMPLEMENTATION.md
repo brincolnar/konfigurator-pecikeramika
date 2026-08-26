@@ -62,8 +62,13 @@ A single `currentStep` string variable tracks where the user is. The "Nadaljuj" 
 | `vogalni-vstavek` | Choose insert for corner fireplace |
 | `vogalni-resetki` | Choose vents for corner fireplace |
 | `vogalni-drva` | Choose wood position for corner fireplace |
+| `tristranski-oblika` | Three-sided fireplace shape |
+| `tristranski-vstavek` | Choose insert for three-sided fireplace |
+| `tristranski-zracniki` | Choose vents for three-sided fireplace |
+| `tristranski-drva` | Choose wood position for three-sided fireplace |
 | `mere-prostora` | Enter room dimensions and contact details (shared by both types) |
 | `ponudba` | Review the recap and send the inquiry by e-mail |
+| `done` | Sent; the button restarts the configurator |
 
 ---
 
@@ -249,7 +254,7 @@ The sticky right-hand panel (`aside.summary-panel`) shows the current selection'
 
 ## Mere Prostora & Ponudba
 
-Both the ravni and vogalni flows converge on two shared closing steps.
+All three flows — ravni, vogalni and tristranski — converge on two shared closing steps.
 
 **`mere-prostora`** — a plain `<form data-mere-form>` (never natively submitted; `novalidate`).
 Required: width, length and height of the room, name, e-mail. Optional: wall width,
@@ -259,7 +264,8 @@ when it returns an empty string. The back button routes to whichever drva step m
 `selectedFireplaceType`.
 
 **`ponudba`** — recap plus send. `collectConfiguration()` reads the chosen options back out
-of the `aria-checked` attributes (the same source of truth the CSS uses), `collectMere()`
+of the `aria-checked` attributes (the same source of truth the CSS uses; it branches per
+fireplace type, and tristranski has no shape option), `collectMere()`
 reads the form, and `renderRecap()` writes them into three `<dl>` lists, dropping empty
 values. The preview image is whatever the last step was showing (`currentPreviewSrc()`).
 
@@ -281,10 +287,12 @@ text prefilled, so no inquiry is silently lost.
 There are **no prices** anywhere in the flow — the offer is an inquiry, and pricing is
 prepared manually after it arrives.
 
+After a successful send the step machine moves to `done` and the button becomes
+"Konfiguriraj nov kamin", which resets the form and returns to the type selection.
+
 ---
 
 ## What Is Not Yet Implemented
 
-- **Tristranski kamin** — card exists but is disabled; no steps or assets.
 - PDF / printable export of the offer — the recap is on-screen and in the e-mail only.
 - No URL routing; browser back/forward does not navigate between steps.

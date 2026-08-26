@@ -10,10 +10,9 @@ const fireplaceTypes = {
     nextLabel: "Nadaljuj na obliko kamina",
   },
   tristranski: {
-    title: "Tristranski kamin — v pripravi",
-    description:
-      "Konfigurator za tristranske kamine še pripravljamo, zato te izvedbe zaenkrat ni mogoče sestaviti do ponudbe. Če vas zanima, nas kontaktirajte in ponudbo pripravimo ročno.",
-    nextLabel: "Konfigurator še ni na voljo",
+    title: "Tristranski kamin",
+    description: "Primeren za izrazit osrednji element z večstranskim pogledom na plamen.",
+    nextLabel: "Nadaljuj na obliko kamina",
   },
 };
 
@@ -116,7 +115,7 @@ const selectFireplace = (selectedType) => {
   selectedTitle.textContent = selected.title;
   selectedDescription.textContent = selected.description;
   nextStepButton.textContent = selected.nextLabel;
-  nextStepButton.disabled = selectedType === "tristranski";
+  nextStepButton.disabled = false;
 };
 
 const selectStraightShape = (selectedShape) => {
@@ -190,6 +189,10 @@ const showFireplaceTypeStep = () => {
   vogalniVstavekStep.classList.add("is-hidden");
   vogalniResetkiStep.classList.add("is-hidden");
   vogalniDrvaStep.classList.add("is-hidden");
+  tristranskaOblikaStep.classList.add("is-hidden");
+  tristranskaVstavekStep.classList.add("is-hidden");
+  tristranskaZracnikiStep.classList.add("is-hidden");
+  tristranskaaDrvaStep.classList.add("is-hidden");
   mereStep.classList.add("is-hidden");
   ponudbaStep.classList.add("is-hidden");
   fireplaceTypeStep.classList.remove("is-hidden");
@@ -303,7 +306,7 @@ const showDrvaStep = () => {
   drvaOverlay.classList.remove("is-static");
   drvaOverlay.classList.add("is-hidden");
   drvaCards.forEach((c) => c.setAttribute("aria-checked", "false"));
-  nextStepButton.textContent = "Nadaljuj na mere prostora";
+  nextStepButton.textContent = "Nadaljuj na povzetek";
   selectedTitle.textContent = "Položaj drv";
   selectedDescription.textContent = "Izberite na kateri strani bodo drva.";
 };
@@ -343,6 +346,151 @@ drvaCards.forEach((card) => {
 backToResetkiButton.addEventListener("click", () => {
   showResetkiStepFromDrva();
   currentStep = "ravni-resetki";
+});
+
+// ─── Tristranski kamin ───────────────────────────────────────────────────────
+
+const tristranskaOblikaStep = document.querySelector('[data-step="tristranski-oblika"]');
+const tristranskaVstavekStep = document.querySelector('[data-step="tristranski-vstavek"]');
+const tristranskaZracnikiStep = document.querySelector('[data-step="tristranski-zracniki"]');
+const tristranskaaDrvaStep = document.querySelector('[data-step="tristranski-drva"]');
+
+const tristranskaOblikaPreview = document.querySelector("[data-tristranski-oblika-preview]");
+const tristranskaVstavekPreview = document.querySelector("[data-tristranski-vstavek-preview]");
+const tristranskaZracnikiPreview = document.querySelector("[data-tristranski-zracniki-preview]");
+const tristranskaaDrvaPreview = document.querySelector("[data-tristranski-drva-preview]");
+
+const tristranskaOblikaCards = document.querySelectorAll("[data-tristranski-oblika]");
+const tristranskaVstavekCards = document.querySelectorAll("[data-tristranski-vstavek]");
+const tristranskaZracnikiCards = document.querySelectorAll("[data-tristranski-zracniki]");
+const tristranskaaDrvaCards = document.querySelectorAll("[data-tristranski-drva]");
+
+const backToTypesFromTristranskaButton = document.querySelector("[data-back-to-types-from-tristranski]");
+const backToTristranskaOblikaButton = document.querySelector("[data-back-to-tristranski-oblika]");
+const backToTristranskaVstavekButton = document.querySelector("[data-back-to-tristranski-vstavek]");
+const backToTristranskaZracnikiButton = document.querySelector("[data-back-to-tristranski-zracniki]");
+
+const tristranskaaDrvaImages = {
+  zZracniki: {
+    desno: "./tristranski/drva/drvadesno_zracniki.jpg",
+    levo: "./tristranski/drva/drvalevo_zracniki.png",
+  },
+  brezZracnikov: {
+    desno: "./tristranski/drva/drvadesno_brezzracnikov.png",
+    levo: "./tristranski/drva/drvalevo_brezzracnikov.png",
+  },
+};
+
+const showTristranskaOblikaStep = () => {
+  fireplaceTypeStep.classList.add("is-hidden");
+  tristranskaOblikaStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na izbor vstavka";
+  selectedTitle.textContent = "Tristranski kamin";
+  selectedDescription.textContent = "Tristranska izvedba z večstranskim pogledom na plamen.";
+};
+
+const showTristranskaVstavekStep = () => {
+  tristranskaOblikaStep.classList.add("is-hidden");
+  tristranskaVstavekStep.classList.remove("is-hidden");
+  tristranskaVstavekCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+  nextStepButton.textContent = "Nadaljuj na izbor zračnikov";
+  selectedTitle.textContent = "Standardni vstavek";
+  selectedDescription.textContent = "Klasični vstavek za tristranski kamin.";
+};
+
+const showTristranskaZracnikiStep = () => {
+  tristranskaVstavekStep.classList.add("is-hidden");
+  tristranskaZracnikiStep.classList.remove("is-hidden");
+  tristranskaZracnikiCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+  tristranskaZracnikiPreview.src = "./tristranski/vstavek/standarden_vstavek.png";
+  nextStepButton.textContent = "Nadaljuj na položaj drv";
+  selectedTitle.textContent = "Izbira zračnikov";
+  selectedDescription.textContent = "Izberite ali želite vidne prezračevalne rešetke.";
+};
+
+const showTristranskaaDrvaStep = () => {
+  tristranskaZracnikiStep.classList.add("is-hidden");
+  tristranskaaDrvaStep.classList.remove("is-hidden");
+  const hasZracniki = Array.from(tristranskaZracnikiCards).find((c) => c.dataset.tristranskiZracniki === "z-zracniki")?.getAttribute("aria-checked") === "true";
+  tristranskaaDrvaPreview.src = hasZracniki
+    ? "./tristranski/drva/brezdrv_zracnika.jpg"
+    : "./tristranski/drva/brezdrv_brezzracnikov.png";
+  tristranskaaDrvaCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+  nextStepButton.textContent = "Nadaljuj na povzetek";
+  selectedTitle.textContent = "Položaj drv";
+  selectedDescription.textContent = "Izberite na kateri strani bodo drva.";
+};
+
+const showTristranskaOblikaFromVstavek = () => {
+  tristranskaVstavekStep.classList.add("is-hidden");
+  tristranskaOblikaStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na izbor vstavka";
+  selectedTitle.textContent = "Tristranski kamin";
+  selectedDescription.textContent = "Tristranska izvedba z večstranskim pogledom na plamen.";
+};
+
+const showTristranskaVstavekFromZracniki = () => {
+  tristranskaZracnikiStep.classList.add("is-hidden");
+  tristranskaVstavekStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na izbor zračnikov";
+  selectedTitle.textContent = "Standardni vstavek";
+  selectedDescription.textContent = "Klasični vstavek za tristranski kamin.";
+};
+
+const showTristranskaZracnikiFromDrva = () => {
+  tristranskaaDrvaStep.classList.add("is-hidden");
+  tristranskaZracnikiStep.classList.remove("is-hidden");
+  nextStepButton.textContent = "Nadaljuj na položaj drv";
+  selectedTitle.textContent = "Izbira zračnikov";
+  selectedDescription.textContent = "Izberite ali želite vidne prezračevalne rešetke.";
+};
+
+tristranskaVstavekCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    tristranskaVstavekCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+  });
+});
+
+tristranskaZracnikiCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    tristranskaZracnikiCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+    tristranskaZracnikiPreview.src = card.dataset.tristranskiZracniki === "z-zracniki"
+      ? "./tristranski/zracniki/zracnika.jpg"
+      : "./tristranski/vstavek/standarden_vstavek.png";
+  });
+});
+
+tristranskaaDrvaCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    tristranskaaDrvaCards.forEach((c) => c.setAttribute("aria-checked", "false"));
+    card.setAttribute("aria-checked", "true");
+    const hasZracniki = Array.from(tristranskaZracnikiCards).find((c) => c.dataset.tristranskiZracniki === "z-zracniki")?.getAttribute("aria-checked") === "true";
+    const set = hasZracniki ? tristranskaaDrvaImages.zZracniki : tristranskaaDrvaImages.brezZracnikov;
+    const src = set[card.dataset.tristranskiDrva];
+    if (src) tristranskaaDrvaPreview.src = src;
+  });
+});
+
+backToTypesFromTristranskaButton.addEventListener("click", () => {
+  showFireplaceTypeStep();
+  currentStep = "fireplace-type";
+});
+
+backToTristranskaOblikaButton.addEventListener("click", () => {
+  showTristranskaOblikaFromVstavek();
+  currentStep = "tristranski-oblika";
+});
+
+backToTristranskaVstavekButton.addEventListener("click", () => {
+  showTristranskaVstavekFromZracniki();
+  currentStep = "tristranski-vstavek";
+});
+
+backToTristranskaZracnikiButton.addEventListener("click", () => {
+  showTristranskaZracnikiFromDrva();
+  currentStep = "tristranski-zracniki";
 });
 
 // ─── Vogalni kamin ────────────────────────────────────────────────────────────
@@ -421,7 +569,7 @@ const showVogalniDrvaStep = () => {
     vogalniDrvaPreview.src = shape.vstavekImage;
   }
   vogalniDrvaCards.forEach((c) => c.setAttribute("aria-checked", "false"));
-  nextStepButton.textContent = "Nadaljuj na mere prostora";
+  nextStepButton.textContent = "Nadaljuj na povzetek";
   selectedTitle.textContent = "Položaj drv";
   selectedDescription.textContent = "Izberite na kateri strani bodo drva.";
 };
@@ -515,7 +663,19 @@ nextStepButton.addEventListener("click", () => {
     } else if (selectedFireplaceType === "vogalni") {
       showVogalniShapeStep();
       currentStep = "vogalni-shape";
+    } else if (selectedFireplaceType === "tristranski") {
+      showTristranskaOblikaStep();
+      currentStep = "tristranski-oblika";
     }
+  } else if (currentStep === "tristranski-oblika") {
+    showTristranskaVstavekStep();
+    currentStep = "tristranski-vstavek";
+  } else if (currentStep === "tristranski-vstavek") {
+    showTristranskaZracnikiStep();
+    currentStep = "tristranski-zracniki";
+  } else if (currentStep === "tristranski-zracniki") {
+    showTristranskaaDrvaStep();
+    currentStep = "tristranski-drva";
   } else if (currentStep === "ravni-shape") {
     showVstavekStep();
     currentStep = "ravni-vstavek";
@@ -534,7 +694,11 @@ nextStepButton.addEventListener("click", () => {
   } else if (currentStep === "vogalni-resetki") {
     showVogalniDrvaStep();
     currentStep = "vogalni-drva";
-  } else if (currentStep === "ravni-drva" || currentStep === "vogalni-drva") {
+  } else if (
+    currentStep === "ravni-drva" ||
+    currentStep === "vogalni-drva" ||
+    currentStep === "tristranski-drva"
+  ) {
     showMereStep();
     currentStep = "mere-prostora";
   } else if (currentStep === "mere-prostora") {
@@ -551,6 +715,10 @@ nextStepButton.addEventListener("click", () => {
     currentStep = "ponudba";
   } else if (currentStep === "ponudba") {
     sendPonudba();
+  } else if (currentStep === "done") {
+    mereForm.reset();
+    showFireplaceTypeStep();
+    currentStep = "fireplace-type";
   }
 });
 
@@ -593,6 +761,15 @@ const checkedLabel = (nodeList, fallback = "Ni izbrano") => {
 };
 
 const collectConfiguration = () => {
+  if (selectedFireplaceType === "tristranski") {
+    return {
+      "Tip kamina": fireplaceTypes.tristranski.title,
+      Vstavek: checkedLabel(tristranskaVstavekCards),
+      Zračniki: checkedLabel(tristranskaZracnikiCards),
+      "Položaj drv": checkedLabel(tristranskaaDrvaCards),
+    };
+  }
+
   if (selectedFireplaceType === "vogalni") {
     return {
       "Tip kamina": fireplaceTypes.vogalni.title,
@@ -651,6 +828,10 @@ const validateMere = (mere) => {
 };
 
 const currentPreviewSrc = () => {
+  if (selectedFireplaceType === "tristranski") {
+    return tristranskaaDrvaPreview.src;
+  }
+
   if (selectedFireplaceType === "vogalni") {
     return vogalniDrvaPreview.src;
   }
@@ -676,6 +857,7 @@ const renderRecap = (list, entries) => {
 const showMereStep = () => {
   drvaStep.classList.add("is-hidden");
   vogalniDrvaStep.classList.add("is-hidden");
+  tristranskaaDrvaStep.classList.add("is-hidden");
   mereStep.classList.remove("is-hidden");
   mereError.classList.add("is-hidden");
   mereEyebrow.textContent = fireplaceTypes[selectedFireplaceType].title;
@@ -688,7 +870,9 @@ const showMereStep = () => {
 const showDrvaStepFromMere = () => {
   mereStep.classList.add("is-hidden");
   ponudbaStep.classList.add("is-hidden");
-  if (selectedFireplaceType === "vogalni") {
+  if (selectedFireplaceType === "tristranski") {
+    tristranskaaDrvaStep.classList.remove("is-hidden");
+  } else if (selectedFireplaceType === "vogalni") {
     vogalniDrvaStep.classList.remove("is-hidden");
   } else {
     drvaStep.classList.remove("is-hidden");
@@ -839,8 +1023,9 @@ const sendPonudba = async () => {
       `Hvala! Povpraševanje je bilo poslano na ${PONUDBA_EMAIL}. Ponudbo vam pošljemo na ${mere.epasta}.`,
       "is-success",
     );
-    nextStepButton.textContent = "Ponudba poslana";
-    nextStepButton.disabled = true;
+    nextStepButton.textContent = "Konfiguriraj nov kamin";
+    nextStepButton.disabled = false;
+    currentStep = "done";
   } catch (error) {
     setPonudbaStatus(
       `Ponudbe ni bilo mogoče poslati (${error.message}). Poskusite znova ali nam pišite na ${PONUDBA_EMAIL}.`,
@@ -853,7 +1038,7 @@ const sendPonudba = async () => {
 
 backToDrvaButton.addEventListener("click", () => {
   showDrvaStepFromMere();
-  currentStep = selectedFireplaceType === "vogalni" ? "vogalni-drva" : "ravni-drva";
+  currentStep = `${selectedFireplaceType === "ravni" ? "ravni" : selectedFireplaceType}-drva`;
 });
 
 backToMereButton.addEventListener("click", () => {

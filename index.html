@@ -63,13 +63,11 @@
           <button class="fireplace-card" type="button" role="radio" aria-checked="false" data-fireplace="tristranski">
             <span class="image-wrap">
               <img src="./kamini/tristranski.jpg" alt="Tristranski kamin z večstranskim pogledom na ogenj" />
-              <span class="card-badge">V pripravi</span>
             </span>
             <span class="card-content">
               <span class="card-kicker">Največ vidnosti</span>
               <span class="card-title">Tristranski kamin</span>
               <span class="card-description">Primeren za izrazit osrednji element z večstranskim pogledom na plamen.</span>
-              <span class="card-note">Konfigurator za to izvedbo še pripravljamo. Za ponudbo nas kontaktirajte in jo pripravimo ročno.</span>
             </span>
           </button>
         </div>
@@ -195,6 +193,106 @@
             <button class="shape-card" type="button" role="radio" aria-checked="false" data-resetki="z-zracniki">
               <span class="shape-title">Z zračniki</span>
               <span class="shape-description">Vidni prezračevalni rešetki na kaminu.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-oblika-title" data-step="tristranski-oblika">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-oblika-title">Predogled tristranskega kamina</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-types-from-tristranski>Spremeni tip kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled tristranskega kamina">
+            <img class="fireplace-overlay is-static" src="./tristranski/oblika/a0d3da1f-4c43-4739-80ed-1fbab3633ff6.png" alt="" aria-hidden="true" data-tristranski-oblika-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Oblika tristranskega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-tristranski-oblika="osnovna">
+              <span class="shape-title">Osnovna</span>
+              <span class="shape-description">Tristranska izvedba z večstranskim pogledom na plamen.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-vstavek-title" data-step="tristranski-vstavek">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-vstavek-title">Izberite vstavek</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-tristranski-oblika>Spremeni obliko kamina</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled vstavka v tristranskem kaminu">
+            <img class="fireplace-overlay is-static" src="./tristranski/vstavek/standarden_vstavek.png" alt="" aria-hidden="true" data-tristranski-vstavek-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Vstavek tristranskega kamina">
+            <button class="shape-card" type="button" role="radio" aria-checked="true" data-tristranski-vstavek="standardni">
+              <span class="shape-title">Standardni vstavek</span>
+              <span class="shape-description">Klasični vstavek za tristranski kamin.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-zracniki-title" data-step="tristranski-zracniki">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-zracniki-title">Izbira zračnikov</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-tristranski-vstavek>Spremeni vstavek</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled zračnikov v tristranskem kaminu">
+            <img class="fireplace-overlay is-static" src="./tristranski/vstavek/standarden_vstavek.png" alt="" aria-hidden="true" data-tristranski-zracniki-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Izbira zračnikov">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-zracniki="brez">
+              <span class="shape-title">Brez zračnikov</span>
+              <span class="shape-description">Čista površina brez vidnih rešetk.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-zracniki="z-zracniki">
+              <span class="shape-title">Z zračniki</span>
+              <span class="shape-description">Vidni prezračevalni rešetki na kaminu.</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="tristranski-drva-title" data-step="tristranski-drva">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tristranski kamin</p>
+            <h2 id="tristranski-drva-title">Položaj drv</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-tristranski-zracniki>Spremeni zračnike</button>
+        </div>
+
+        <div class="room-configurator">
+          <div class="room-preview is-single" aria-label="Predogled položaja drv v tristranskem kaminu">
+            <img class="fireplace-overlay is-static" src="" alt="" aria-hidden="true" data-tristranski-drva-preview />
+          </div>
+
+          <div class="shape-options" role="radiogroup" aria-label="Položaj drv">
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-drva="desno">
+              <span class="shape-title">Drva desno</span>
+              <span class="shape-description">Drva so nameščena na desni strani kamina.</span>
+            </button>
+            <button class="shape-card" type="button" role="radio" aria-checked="false" data-tristranski-drva="levo">
+              <span class="shape-title">Drva levo</span>
+              <span class="shape-description">Drva so nameščena na levi strani kamina.</span>
             </button>
           </div>
         </div>
