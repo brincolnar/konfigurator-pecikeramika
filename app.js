@@ -10,9 +10,10 @@ const fireplaceTypes = {
     nextLabel: "Nadaljuj na obliko kamina",
   },
   tristranski: {
-    title: "Tristranski kamin",
-    description: "Primeren za izrazit osrednji element z večstranskim pogledom na plamen.",
-    nextLabel: "Oblike za tristranski kamin kmalu",
+    title: "Tristranski kamin — v pripravi",
+    description:
+      "Konfigurator za tristranske kamine še pripravljamo, zato te izvedbe zaenkrat ni mogoče sestaviti do ponudbe. Če vas zanima, nas kontaktirajte in ponudbo pripravimo ročno.",
+    nextLabel: "Konfigurator še ni na voljo",
   },
 };
 
@@ -189,6 +190,8 @@ const showFireplaceTypeStep = () => {
   vogalniVstavekStep.classList.add("is-hidden");
   vogalniResetkiStep.classList.add("is-hidden");
   vogalniDrvaStep.classList.add("is-hidden");
+  mereStep.classList.add("is-hidden");
+  ponudbaStep.classList.add("is-hidden");
   fireplaceTypeStep.classList.remove("is-hidden");
   selectFireplace(selectedFireplaceType);
 };
@@ -531,6 +534,23 @@ nextStepButton.addEventListener("click", () => {
   } else if (currentStep === "vogalni-resetki") {
     showVogalniDrvaStep();
     currentStep = "vogalni-drva";
+  } else if (currentStep === "ravni-drva" || currentStep === "vogalni-drva") {
+    showMereStep();
+    currentStep = "mere-prostora";
+  } else if (currentStep === "mere-prostora") {
+    const error = validateMere(collectMere());
+
+    if (error) {
+      mereError.textContent = error;
+      mereError.classList.remove("is-hidden");
+      return;
+    }
+
+    mereError.classList.add("is-hidden");
+    showPonudbaStep();
+    currentStep = "ponudba";
+  } else if (currentStep === "ponudba") {
+    sendPonudba();
   }
 });
 
@@ -547,4 +567,296 @@ backToShapeButton.addEventListener("click", () => {
 backToVstavekButton.addEventListener("click", () => {
   showVstavekStepFromResetki();
   currentStep = "ravni-vstavek";
+});
+
+// ─── Mere prostora + ponudba ──────────────────────────────────────────────────
+
+const WEB3FORMS_ACCESS_KEY = import.meta.env.PK_WEB3FORMS_KEY ?? "";
+const PONUDBA_EMAIL = "colnar.brin3@gmail.com";
+
+const mereStep = document.querySelector('[data-step="mere-prostora"]');
+const ponudbaStep = document.querySelector('[data-step="ponudba"]');
+const mereForm = document.querySelector("[data-mere-form]");
+const mereEyebrow = document.querySelector("[data-mere-eyebrow]");
+const mereError = document.querySelector("[data-mere-error]");
+const backToDrvaButton = document.querySelector("[data-back-to-drva]");
+const backToMereButton = document.querySelector("[data-back-to-mere]");
+const ponudbaPreview = document.querySelector("[data-ponudba-preview]");
+const ponudbaStatus = document.querySelector("[data-ponudba-status]");
+const recapKonfiguracija = document.querySelector("[data-recap-konfiguracija]");
+const recapMere = document.querySelector("[data-recap-mere]");
+const recapKontakt = document.querySelector("[data-recap-kontakt]");
+
+const checkedLabel = (nodeList, fallback = "Ni izbrano") => {
+  const checked = Array.from(nodeList).find((c) => c.getAttribute("aria-checked") === "true");
+  return checked?.querySelector(".shape-title")?.textContent.trim() ?? fallback;
+};
+
+const collectConfiguration = () => {
+  if (selectedFireplaceType === "vogalni") {
+    return {
+      "Tip kamina": fireplaceTypes.vogalni.title,
+      Oblika: vogalniShapes[selectedVogalniShape].title,
+      Vstavek: checkedLabel(vogalniVstavekCards),
+      Zračniki: checkedLabel(vogalniResetkiCards),
+      "Položaj drv": checkedLabel(vogalniDrvaCards),
+    };
+  }
+
+  return {
+    "Tip kamina": fireplaceTypes.ravni.title,
+    Oblika: straightFireplaceShapes[selectedStraightShape].title,
+    Vstavek: checkedLabel(vstavekCards),
+    Zračniki: checkedLabel(resetkiCards),
+    "Položaj drv": checkedLabel(drvaCards),
+  };
+};
+
+const collectMere = () => {
+  const data = new FormData(mereForm);
+  const value = (name) => String(data.get(name) ?? "").trim();
+
+  return {
+    sirinaProstora: value("sirinaProstora"),
+    dolzinaProstora: value("dolzinaProstora"),
+    visinaProstora: value("visinaProstora"),
+    sirinaStene: value("sirinaStene"),
+    dimnik: value("dimnik"),
+    rok: value("rok"),
+    ime: value("ime"),
+    epasta: value("epasta"),
+    telefon: value("telefon"),
+    kraj: value("kraj"),
+    opombe: value("opombe"),
+  };
+};
+
+const validateMere = (mere) => {
+  const missing = [];
+  if (!mere.sirinaProstora) missing.push("širina prostora");
+  if (!mere.dolzinaProstora) missing.push("dolžina prostora");
+  if (!mere.visinaProstora) missing.push("višina prostora");
+  if (!mere.ime) missing.push("ime in priimek");
+  if (!mere.epasta) missing.push("e-pošta");
+
+  if (missing.length > 0) {
+    return `Prosimo, izpolnite obvezna polja: ${missing.join(", ")}.`;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mere.epasta)) {
+    return "Vnesite veljaven e-poštni naslov.";
+  }
+
+  return "";
+};
+
+const currentPreviewSrc = () => {
+  if (selectedFireplaceType === "vogalni") {
+    return vogalniDrvaPreview.src;
+  }
+
+  return drvaOverlay.classList.contains("is-hidden") || !drvaOverlay.getAttribute("src")
+    ? drvaShapeOverlay.src
+    : drvaOverlay.src;
+};
+
+const renderRecap = (list, entries) => {
+  list.innerHTML = "";
+  entries
+    .filter(([, value]) => value !== "")
+    .forEach(([label, value]) => {
+      const dt = document.createElement("dt");
+      dt.textContent = label;
+      const dd = document.createElement("dd");
+      dd.textContent = value;
+      list.append(dt, dd);
+    });
+};
+
+const showMereStep = () => {
+  drvaStep.classList.add("is-hidden");
+  vogalniDrvaStep.classList.add("is-hidden");
+  mereStep.classList.remove("is-hidden");
+  mereError.classList.add("is-hidden");
+  mereEyebrow.textContent = fireplaceTypes[selectedFireplaceType].title;
+  nextStepButton.disabled = false;
+  nextStepButton.textContent = "Nadaljuj na ponudbo";
+  selectedTitle.textContent = "Mere prostora";
+  selectedDescription.textContent = "Vnesite mere prostora in kontaktne podatke za pripravo ponudbe.";
+};
+
+const showDrvaStepFromMere = () => {
+  mereStep.classList.add("is-hidden");
+  ponudbaStep.classList.add("is-hidden");
+  if (selectedFireplaceType === "vogalni") {
+    vogalniDrvaStep.classList.remove("is-hidden");
+  } else {
+    drvaStep.classList.remove("is-hidden");
+  }
+  nextStepButton.disabled = false;
+  nextStepButton.textContent = "Nadaljuj na mere prostora";
+  selectedTitle.textContent = "Položaj drv";
+  selectedDescription.textContent = "Izberite na kateri strani bodo drva.";
+};
+
+const showPonudbaStep = () => {
+  const mere = collectMere();
+
+  mereStep.classList.add("is-hidden");
+  ponudbaStep.classList.remove("is-hidden");
+  ponudbaStatus.classList.add("is-hidden");
+  ponudbaStatus.classList.remove("is-error", "is-success");
+
+  const previewSrc = currentPreviewSrc();
+  ponudbaPreview.src = previewSrc;
+  ponudbaPreview.classList.toggle("is-hidden", !previewSrc);
+
+  renderRecap(recapKonfiguracija, Object.entries(collectConfiguration()));
+  renderRecap(recapMere, [
+    ["Širina prostora", `${mere.sirinaProstora} cm`],
+    ["Dolžina prostora", `${mere.dolzinaProstora} cm`],
+    ["Višina prostora", `${mere.visinaProstora} cm`],
+    ["Širina stene za kamin", mere.sirinaStene ? `${mere.sirinaStene} cm` : ""],
+    ["Obstoječi dimnik", mere.dimnik],
+    ["Želeni rok izvedbe", mere.rok],
+  ]);
+  renderRecap(recapKontakt, [
+    ["Ime in priimek", mere.ime],
+    ["E-pošta", mere.epasta],
+    ["Telefon", mere.telefon],
+    ["Kraj montaže", mere.kraj],
+    ["Opombe", mere.opombe],
+  ]);
+
+  nextStepButton.disabled = false;
+  nextStepButton.textContent = "Pošlji ponudbo";
+  selectedTitle.textContent = "Vaša ponudba";
+  selectedDescription.textContent = `Preverite povzetek in pošljite povpraševanje na ${PONUDBA_EMAIL}.`;
+};
+
+const showMereStepFromPonudba = () => {
+  ponudbaStep.classList.add("is-hidden");
+  mereStep.classList.remove("is-hidden");
+  nextStepButton.disabled = false;
+  nextStepButton.textContent = "Nadaljuj na ponudbo";
+  selectedTitle.textContent = "Mere prostora";
+  selectedDescription.textContent = "Vnesite mere prostora in kontaktne podatke za pripravo ponudbe.";
+};
+
+const buildPonudbaText = (konfiguracija, mere) => {
+  const lines = [
+    "NOVO POVPRAŠEVANJE — Konfigurator Peči Keramika",
+    "",
+    "IZBRANA KONFIGURACIJA",
+    ...Object.entries(konfiguracija).map(([label, value]) => `  ${label}: ${value}`),
+    "",
+    "MERE PROSTORA",
+    `  Širina prostora: ${mere.sirinaProstora} cm`,
+    `  Dolžina prostora: ${mere.dolzinaProstora} cm`,
+    `  Višina prostora: ${mere.visinaProstora} cm`,
+    `  Širina stene za kamin: ${mere.sirinaStene ? `${mere.sirinaStene} cm` : "ni podano"}`,
+    `  Obstoječi dimnik: ${mere.dimnik}`,
+    `  Želeni rok izvedbe: ${mere.rok}`,
+    "",
+    "KONTAKT",
+    `  Ime in priimek: ${mere.ime}`,
+    `  E-pošta: ${mere.epasta}`,
+    `  Telefon: ${mere.telefon || "ni podano"}`,
+    `  Kraj montaže: ${mere.kraj || "ni podano"}`,
+    "",
+    "OPOMBE",
+    `  ${mere.opombe || "ni opomb"}`,
+  ];
+
+  return lines.join("\n");
+};
+
+const setPonudbaStatus = (message, variant) => {
+  ponudbaStatus.textContent = message;
+  ponudbaStatus.classList.remove("is-hidden", "is-error", "is-success");
+  if (variant) {
+    ponudbaStatus.classList.add(variant);
+  }
+};
+
+const openMailtoFallback = (subject, body) => {
+  const href = `mailto:${PONUDBA_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = href;
+};
+
+const sendPonudba = async () => {
+  const mere = collectMere();
+  const konfiguracija = collectConfiguration();
+  const subject = `Povpraševanje za kamin — ${konfiguracija["Tip kamina"]} (${mere.ime})`;
+  const body = buildPonudbaText(konfiguracija, mere);
+
+  if (!WEB3FORMS_ACCESS_KEY) {
+    setPonudbaStatus(
+      "Pošiljanje prek strežnika ni nastavljeno (manjka PK_WEB3FORMS_KEY). Odpiramo vaš e-poštni odjemalec s pripravljenim sporočilom.",
+      "is-error",
+    );
+    openMailtoFallback(subject, body);
+    return;
+  }
+
+  nextStepButton.disabled = true;
+  nextStepButton.textContent = "Pošiljanje ...";
+  setPonudbaStatus("Pošiljamo ponudbo ...");
+
+  try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject,
+        from_name: "Konfigurator Peči Keramika",
+        replyto: mere.epasta,
+        botcheck: "",
+        message: body,
+        ...konfiguracija,
+        "Ime in priimek": mere.ime,
+        "E-pošta stranke": mere.epasta,
+        Telefon: mere.telefon,
+        "Kraj montaže": mere.kraj,
+        "Širina prostora (cm)": mere.sirinaProstora,
+        "Dolžina prostora (cm)": mere.dolzinaProstora,
+        "Višina prostora (cm)": mere.visinaProstora,
+        "Širina stene (cm)": mere.sirinaStene,
+        Dimnik: mere.dimnik,
+        "Rok izvedbe": mere.rok,
+        Opombe: mere.opombe,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Pošiljanje ni uspelo.");
+    }
+
+    setPonudbaStatus(
+      `Hvala! Povpraševanje je bilo poslano na ${PONUDBA_EMAIL}. Ponudbo vam pošljemo na ${mere.epasta}.`,
+      "is-success",
+    );
+    nextStepButton.textContent = "Ponudba poslana";
+    nextStepButton.disabled = true;
+  } catch (error) {
+    setPonudbaStatus(
+      `Ponudbe ni bilo mogoče poslati (${error.message}). Poskusite znova ali nam pišite na ${PONUDBA_EMAIL}.`,
+      "is-error",
+    );
+    nextStepButton.textContent = "Poskusi znova";
+    nextStepButton.disabled = false;
+  }
+};
+
+backToDrvaButton.addEventListener("click", () => {
+  showDrvaStepFromMere();
+  currentStep = selectedFireplaceType === "vogalni" ? "vogalni-drva" : "ravni-drva";
+});
+
+backToMereButton.addEventListener("click", () => {
+  showMereStepFromPonudba();
+  currentStep = "mere-prostora";
 });

@@ -63,11 +63,13 @@
           <button class="fireplace-card" type="button" role="radio" aria-checked="false" data-fireplace="tristranski">
             <span class="image-wrap">
               <img src="./kamini/tristranski.jpg" alt="Tristranski kamin z večstranskim pogledom na ogenj" />
+              <span class="card-badge">V pripravi</span>
             </span>
             <span class="card-content">
               <span class="card-kicker">Največ vidnosti</span>
               <span class="card-title">Tristranski kamin</span>
               <span class="card-description">Primeren za izrazit osrednji element z večstranskim pogledom na plamen.</span>
+              <span class="card-note">Konfigurator za to izvedbo še pripravljamo. Za ponudbo nas kontaktirajte in jo pripravimo ročno.</span>
             </span>
           </button>
         </div>
@@ -302,6 +304,120 @@
               <span class="shape-title">Drva spodaj</span>
               <span class="shape-description">Drva so nameščena spodaj v kaminu.</span>
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="mere-title" data-step="mere-prostora">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-mere-eyebrow>Kamin</p>
+            <h2 id="mere-title">Mere prostora in vaši podatki</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-drva>Spremeni položaj drv</button>
+        </div>
+
+        <form class="mere-form" novalidate data-mere-form>
+          <fieldset class="form-block">
+            <legend class="form-legend">Mere prostora</legend>
+            <div class="form-grid">
+              <label class="form-field">
+                <span class="form-label">Širina prostora (cm) <em>*</em></span>
+                <input type="number" name="sirinaProstora" min="50" max="3000" step="1" inputmode="numeric" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Dolžina prostora (cm) <em>*</em></span>
+                <input type="number" name="dolzinaProstora" min="50" max="3000" step="1" inputmode="numeric" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Višina prostora (cm) <em>*</em></span>
+                <input type="number" name="visinaProstora" min="150" max="900" step="1" inputmode="numeric" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Širina stene za kamin (cm)</span>
+                <input type="number" name="sirinaStene" min="20" max="3000" step="1" inputmode="numeric" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Obstoječi dimnik</span>
+                <select name="dimnik">
+                  <option value="Ne vem">Ne vem</option>
+                  <option value="Da, dimnik obstaja">Da, dimnik obstaja</option>
+                  <option value="Ne, dimnika ni">Ne, dimnika ni</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span class="form-label">Želeni rok izvedbe</span>
+                <select name="rok">
+                  <option value="Ni določeno">Ni določeno</option>
+                  <option value="Čim prej">Čim prej</option>
+                  <option value="V 3 mesecih">V 3 mesecih</option>
+                  <option value="V 6 mesecih">V 6 mesecih</option>
+                  <option value="Kasneje">Kasneje</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-block">
+            <legend class="form-legend">Vaši podatki</legend>
+            <div class="form-grid">
+              <label class="form-field">
+                <span class="form-label">Ime in priimek <em>*</em></span>
+                <input type="text" name="ime" autocomplete="name" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">E-pošta <em>*</em></span>
+                <input type="email" name="epasta" autocomplete="email" required />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Telefon</span>
+                <input type="tel" name="telefon" autocomplete="tel" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Kraj montaže</span>
+                <input type="text" name="kraj" autocomplete="address-level2" />
+              </label>
+            </div>
+            <label class="form-field is-wide">
+              <span class="form-label">Opombe</span>
+              <textarea name="opombe" rows="3" placeholder="Posebne želje, obstoječe stanje, dostop do prostora ..."></textarea>
+            </label>
+          </fieldset>
+
+          <p class="form-error is-hidden" role="alert" data-mere-error></p>
+        </form>
+      </section>
+
+      <section class="selection-panel is-hidden" aria-labelledby="ponudba-title" data-step="ponudba">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Zaključek</p>
+            <h2 id="ponudba-title">Vaša ponudba</h2>
+          </div>
+          <button class="secondary-action" type="button" data-back-to-mere>Spremeni mere in podatke</button>
+        </div>
+
+        <div class="ponudba-layout">
+          <div class="ponudba-preview">
+            <img src="" alt="Predogled izbrane konfiguracije kamina" data-ponudba-preview />
+          </div>
+
+          <div class="ponudba-recap">
+            <h3 class="recap-heading">Izbrana konfiguracija</h3>
+            <dl class="recap-list" data-recap-konfiguracija></dl>
+
+            <h3 class="recap-heading">Mere prostora</h3>
+            <dl class="recap-list" data-recap-mere></dl>
+
+            <h3 class="recap-heading">Kontaktni podatki</h3>
+            <dl class="recap-list" data-recap-kontakt></dl>
+
+            <p class="ponudba-note">
+              Povpraševanje pošljemo na <strong>colnar.brin3@gmail.com</strong>. Ceno pripravimo
+              ročno glede na izbrano izvedbo in mere prostora ter vam jo posredujemo po e-pošti.
+            </p>
+
+            <p class="form-status is-hidden" role="status" data-ponudba-status></p>
           </div>
         </div>
       </section>

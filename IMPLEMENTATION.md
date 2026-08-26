@@ -62,6 +62,8 @@ A single `currentStep` string variable tracks where the user is. The "Nadaljuj" 
 | `vogalni-vstavek` | Choose insert for corner fireplace |
 | `vogalni-resetki` | Choose vents for corner fireplace |
 | `vogalni-drva` | Choose wood position for corner fireplace |
+| `mere-prostora` | Enter room dimensions and contact details (shared by both types) |
+| `ponudba` | Review the recap and send the inquiry by e-mail |
 
 ---
 
@@ -245,9 +247,44 @@ The sticky right-hand panel (`aside.summary-panel`) shows the current selection'
 
 ---
 
+## Mere Prostora & Ponudba
+
+Both the ravni and vogalni flows converge on two shared closing steps.
+
+**`mere-prostora`** — a plain `<form data-mere-form>` (never natively submitted; `novalidate`).
+Required: width, length and height of the room, name, e-mail. Optional: wall width,
+existing chimney, desired timeline, phone, location, notes. `validateMere()` runs on
+"Nadaljuj" and renders a Slovene message into `[data-mere-error]`; the step only advances
+when it returns an empty string. The back button routes to whichever drva step matches
+`selectedFireplaceType`.
+
+**`ponudba`** — recap plus send. `collectConfiguration()` reads the chosen options back out
+of the `aria-checked` attributes (the same source of truth the CSS uses), `collectMere()`
+reads the form, and `renderRecap()` writes them into three `<dl>` lists, dropping empty
+values. The preview image is whatever the last step was showing (`currentPreviewSrc()`).
+
+### E-mail delivery
+
+Submitting POSTs JSON to the [Web3Forms](https://web3forms.com) API; Web3Forms delivers to
+the address the access key was registered with — **colnar.brin3@gmail.com**. The payload
+carries a preformatted plain-text `message` (see `buildPonudbaText()`) plus each field
+individually, `replyto` set to the customer's address, and an empty `botcheck` honeypot.
+
+The key comes from `PK_WEB3FORMS_KEY` (see `.env.example`; the non-default `PK_`
+prefix is enabled via `envPrefix` in `vite.config.js`); it is a public,
+send-only key and is inlined into the bundle at build time by design. Set it in
+`.env` locally and as an environment variable in Vercel.
+
+If the key is missing, `sendPonudba()` falls back to opening a `mailto:` link with the same
+text prefilled, so no inquiry is silently lost.
+
+There are **no prices** anywhere in the flow — the offer is an inquiry, and pricing is
+prepared manually after it arrives.
+
+---
+
 ## What Is Not Yet Implemented
 
 - **Tristranski kamin** — card exists but is disabled; no steps or assets.
-- **Mere prostora** (room dimensions) — "Nadaljuj na mere prostora" is the final button label on both drva steps, but no step exists for it yet.
-- Form submission / summary export — no output after the last step.
+- PDF / printable export of the offer — the recap is on-screen and in the e-mail only.
 - No URL routing; browser back/forward does not navigate between steps.
